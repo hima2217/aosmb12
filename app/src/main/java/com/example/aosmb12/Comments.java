@@ -7,6 +7,12 @@ public class Comments {
     private String email;
     private String body;
 
+    public Comments(){}
+
+    public Comments (int postId, String email){
+        this.postId = postId;
+        this.email=email;
+    }
     public int getId() {
         return id;
     }

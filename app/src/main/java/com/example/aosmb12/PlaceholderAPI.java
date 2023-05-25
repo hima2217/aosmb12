@@ -13,14 +13,14 @@ import retrofit2.http.Query;
 
 public interface PlaceholderAPI {
     @GET("comments")
-    Call<List<Comment>> getAllComments();
+    Call<List<Comments>> getAllComments();
 
     @POST("comments")
-    Call<Comment> createComment(@Body Comment comment);
+    Call<Comments> createComment(@Body Comments comment);
 
     @GET("comments")
-    Call<List<Comment>> getCommentsByUser(@Query("userId") int userId);
+    Call<List<Comments>> getCommentsByPostId(@Query("postId") int postId);
 
     @GET("comments/{id}")
-    Call<Comment> getCommentById(@Path("id") int id);
+    Call<Comments> getCommentById(@Path("id") int id);
 }
