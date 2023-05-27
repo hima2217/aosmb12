@@ -1,88 +1,44 @@
 package com.example.aosmb12.UI.views;
 
-import androidx.appcompat.app.AppCompatActivity;
+import  androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import android.os.Bundle;
 import android.util.Log;
-
-
 import com.example.aosmb12.R;
-import com.example.aosmb12.UI.RetrofitFactory;
-import com.example.aosmb12.data.dataSource.APIs.PlaceholderAPI;
+import com.example.aosmb12.UI.viewmodels.ViewModel;
 import com.example.aosmb12.data.dataSource.Comments;
 
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-
 public class MainActivity extends AppCompatActivity {
+
+    private ViewModel viewModel;
+
     public final String URL_API = "https://jsonplaceholder.typicode.com/";
+
+    public String TAG = "getDataFromApi";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        apiDataTransf();
-    }
-    private void apiDataTransf(){
-        Retrofit retrofit = RetrofitFactory.getRetrofit(URL_API);
-        PlaceholderAPI serviceAPI = retrofit.create(PlaceholderAPI.class);
-        int Id = 20;
-        int postId = 3;
-        Call<Comments> call1 = serviceAPI.getCommentById(Id);
-        call1.enqueue(new Callback<Comments>() {
-            @Override
-            public void onResponse(Call<Comments> call, Response<Comments> response) {
-                if (response.isSuccessful()) {
-                    Comments comments = response.body();
-                    Log.d("Успех!", "Данные:" + comments.getName());
 
-                } else {
-                    Log.e("Не успех", "Не вышло(");
-                }
-            }
+        viewModel = new ViewModel();
+
+        viewModel.getUser().observe(this, new Observer<com.example.aosmb12.data.dataSource.Comments>() {
             @Override
-            public void onFailure(Call<Comments> call, Throwable t) {
-                Log.e("Не получилось", "Ошибка:" + t.getMessage());
+            public void onChanged(com.example.aosmb12.data.dataSource.Comments user) {
+                Log.d(TAG, "User name: " + user.getName());
             }
         });
-        Call<List<Comments>> call2 = serviceAPI.getCommentsByPostId(postId);
-        call2.enqueue(new Callback<List<Comments>>() {
-            @Override
-            public void onResponse(Call<List<Comments>> call, Response<List<Comments>> response) {
-                if (response.isSuccessful()) {
-                    List<Comments> comments = response.body();
 
-                    for (int i = 0;i<comments.size();i++){
-                        Log.d("Успех!", "Данные:" + comments.get(i).getName());
-                    }
-                } else {
-                    Log.e("Не успех", "Не вышло(");
-                }
-            }
+        viewModel.getUsers().observe(this, new Observer<List<com.example.aosmb12.data.dataSource.Comments>>() {
             @Override
-            public void onFailure(Call<List<Comments>> call, Throwable t) {
-                Log.e("Не получилось", "Ошибка:" + t.getMessage());
+            public void onChanged(List<Comments> users) {
+                Log.d(TAG, "User list:" + users.toString());
             }
         });
-        Comments comment = new Comments(2, "Nikita@garfield.biz");
-        Call<Comments> call3 = serviceAPI.createComment(comment);
-        call3.enqueue(new Callback<Comments>() {
-            @Override
-            public void onResponse(Call<Comments> call, Response<Comments> response) {
-                if (response.isSuccessful()) {
-                    Comments comments = response.body();
-                        Log.d("Успех!", "Данные:" + comments.getEmail());
 
-                } else {
-                    Log.e("Не успех", "Не вышло(");
-                }
-            }
-            @Override
-            public void onFailure(Call<Comments> call, Throwable t) {
-                Log.e("Не получилось", "Ошибка:" + t.getMessage());
-            }
-        });
+        viewModel.apiDataTransf();
     }
 }
