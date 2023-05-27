@@ -1,4 +1,4 @@
-package com.example.aosmb12;
+package com.example.aosmb12.data.dataSource;
 
 public class Comments {
     private int postId;

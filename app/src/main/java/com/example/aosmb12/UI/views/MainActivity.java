@@ -1,9 +1,14 @@
-package com.example.aosmb12;
+package com.example.aosmb12.UI.views;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+
+import com.example.aosmb12.R;
+import com.example.aosmb12.UI.RetrofitFactory;
+import com.example.aosmb12.data.dataSource.APIs.PlaceholderAPI;
+import com.example.aosmb12.data.dataSource.Comments;
 
 import java.util.List;
 

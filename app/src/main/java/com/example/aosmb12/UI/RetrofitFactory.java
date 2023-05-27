@@ -1,4 +1,4 @@
-package com.example.aosmb12;
+package com.example.aosmb12.UI;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
